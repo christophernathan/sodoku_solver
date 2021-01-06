@@ -11,6 +11,7 @@ light_grey = (200,200,200)
 dark_grey = (100,100,100)
 blue = (0,0,255)
 red = (255,0,0)
+green = (0,255,0)
 board = [[0, 8, 4, 1, 0, 0, 0, 0, 0], 
             [3, 0, 0, 0, 0, 0, 0, 2, 0], 
             [7, 0, 0, 9, 0, 0, 0, 0, 0], 
@@ -18,11 +19,13 @@ board = [[0, 8, 4, 1, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 7, 9, 0, 3], 
             [6, 0, 0, 0, 0, 9, 5, 0, 0], 
             [0, 1, 0, 0, 6, 0, 0, 0, 5], 
-            [2, 0, 0, 0, 0, 0, 0, 6, 1], 
+            [2, 0, 0, 0, 0, 0, 0, 6, 1],    
             [0, 0, 0, 0, 0, 0, 0, 0, 0]]
 originalBoard = []
+interactiveBoard = []
 for row in board:
     originalBoard.append(row.copy())
+    interactiveBoard.append(row.copy())
 
 pygame.init()
 BOARD_FONT = pygame.font.SysFont("newyork", 50)
@@ -31,14 +34,18 @@ BUTTON_FONT = pygame.font.SysFont("newyork", 20)
 def drawRectangle(gameDisplay,color,left,top,width,height,thickness):
     pygame.draw.rect(gameDisplay,color,(left,top,width,height),thickness)
 
-def addValid(gameDisplay,row,col,num):
+def addValid(gameDisplay,row,col,num, demo):
     box_width = (WIDTH-6)/9
     text = BOARD_FONT.render(str(num), True, black)
     text_width = text.get_rect().width
     text_height = text.get_rect().height
     gameDisplay.blit(text,(3+col*box_width+((box_width-text_width)/2),3+row*box_width+((box_width-text_height)/2)))
+    if demo:
+        drawRectangle(gameDisplay,green,4+col*box_width,4+row*box_width,box_width-2,box_width-2,1)
+        pygame.display.update()
+        sleep(.1)
+        drawRectangle(gameDisplay,white,4+col*box_width,4+row*box_width,box_width-2,box_width-2,1)
     pygame.display.update()
-    #sleep(.01)
 
 def removeInvalid(gameDisplay,row,col):
     box_width = (WIDTH-6)/9
@@ -86,7 +93,7 @@ def getUnassigned(row,col):
                 return (a,b)
     return (-1,-1)
 
-def solve(gameDisplay,row,col):
+def solve(gameDisplay,row,col, demo):
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit(); sys.exit()
@@ -97,22 +104,32 @@ def solve(gameDisplay,row,col):
         if isSafe(unassigned[0],unassigned[1],i):
             #print(i)
             removeInvalid(gameDisplay,unassigned[0],unassigned[1])
-            addValid(gameDisplay,unassigned[0],unassigned[1],i)
+            addValid(gameDisplay,unassigned[0],unassigned[1],i, demo)
             board[unassigned[0]][unassigned[1]] = i
             if unassigned[0]==N-1 and unassigned[1]==N-1:
                 return True
             elif unassigned[1]==N-1:
-                if solve(gameDisplay, unassigned[0]+1,0):
+                if solve(gameDisplay, unassigned[0]+1,0, demo):
                     return True
             else:
-                if solve(gameDisplay, unassigned[0],unassigned[1]+1):
+                if solve(gameDisplay, unassigned[0],unassigned[1]+1, demo):
                     return True
     board[unassigned[0]][unassigned[1]] = 0
     removeInvalid(gameDisplay,unassigned[0],unassigned[1])
     return False
 
-def executeSolve(gameDisplay):
-    solve(gameDisplay,0,0)
+def executeSolve(gameDisplay, demo):
+    solve(gameDisplay,0,0, demo)
+
+def resetBoard(gameDisplay, demo):
+    gameDisplay.fill(white)
+    drawBoard(gameDisplay)
+    for a in range(N):
+        for b in range(N):
+            board[a][b] = originalBoard[a][b]
+            if originalBoard[a][b]!=0:
+                addValid(gameDisplay,a,b,originalBoard[a][b], False)
+    
 
 def handleButtons(gameDisplay):
     mouse = pygame.mouse.get_pos()
@@ -154,7 +171,11 @@ def handleButtons(gameDisplay):
 def handleClick():
     mouse = pygame.mouse.get_pos()
     if WIDTH/10 <= mouse[0] <= 3*WIDTH/10 and WIDTH+(HEIGHT-WIDTH)/6 <= mouse[1] <= WIDTH+(HEIGHT-WIDTH)/2: 
-        executeSolve(gameDisplay)
+        executeSolve(gameDisplay, False)
+    elif 4*WIDTH/10 <= mouse[0] <= 6*WIDTH/10 and WIDTH+(HEIGHT-WIDTH)/6 <= mouse[1] <= WIDTH+(HEIGHT-WIDTH)/2:
+        executeSolve(gameDisplay, True)
+    elif 7*WIDTH/10 <= mouse[0] <= 9*WIDTH/10 and WIDTH+4*(HEIGHT-WIDTH)/6 <= mouse[1] <= WIDTH+5*(HEIGHT-WIDTH)/6:
+        resetBoard(gameDisplay, False)
 
     
 
@@ -167,7 +188,7 @@ drawBoard(gameDisplay)
 for a in range(N):
     for b in range(N):
         if board[a][b]!=0:
-            addValid(gameDisplay,a,b,board[a][b])
+            addValid(gameDisplay,a,b,board[a][b], False)
 pygame.display.update()
 
 #executeSolve(gameDisplay)
