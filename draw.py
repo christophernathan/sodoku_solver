@@ -29,18 +29,18 @@ light_yellow = (255,200,24)
 def drawRectangle(gameDisplay,color,left,top,width,height,thickness):
     pygame.draw.rect(gameDisplay,color,(left,top,width,height),thickness)
 
-def addValid(gameDisplay,row,col,num):
+def addValid(gameDisplay,row,col,num): # add number in cell
     text = BOARD_FONT.render(str(num), True, black)
     text_width = text.get_rect().width
     text_height = text.get_rect().height
     gameDisplay.blit(text,(3+col*CELL_WIDTH+((CELL_WIDTH-text_width)/2),3+row*CELL_WIDTH+((CELL_WIDTH-text_height)/2)))
     pygame.display.update()
 
-def removeInvalid(gameDisplay,row,col):
+def removeInvalid(gameDisplay,row,col): # remove number from cell
     drawRectangle(gameDisplay,white,6+col*CELL_WIDTH,6+row*CELL_WIDTH,CELL_WIDTH-6,CELL_WIDTH-6,0)
     pygame.display.update()
 
-def drawInnerBox(gameDisplay,color,row,col,thickness):
+def drawInnerBox(gameDisplay,color,row,col,thickness): # outline cell on board
     topOffset=0; leftOffset=0; rightOffset=0; bottomOffset=0
     if row==0:
         topOffset = 2

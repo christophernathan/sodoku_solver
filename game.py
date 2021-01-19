@@ -24,7 +24,7 @@ for row in board:
     originalBoard.append(row.copy())
     interactiveBoard.append(row.copy())
 
-def loadNewBoard(newBoard):
+def loadNewBoard(newBoard): # load newly-generated board
     board.clear()
     originalBoard.clear()
     interactiveBoard.clear()
@@ -33,15 +33,11 @@ def loadNewBoard(newBoard):
         originalBoard.append(row.copy())
         interactiveBoard.append(row.copy())
 
-def calcBox():
+def calcBox(): # calculate which board cell is clicked
     mouse = pygame.mouse.get_pos()
     return ((mouse[1]-3)//((WIDTH-6)/9),(mouse[0]-3)//((WIDTH-6)/9))
 
-#def printBoard():
-#    print('\n'.join([''.join(['{:4}'.format(col) for col in row]) 
-#            for row in board]))
-
-def isSafe(row,col,num):
+def isSafe(row,col,num): # determines if the given number is valid in the given cell
     for i in range(0,9):
         if i!=row and board[i][col]==num:
             return False
@@ -56,15 +52,15 @@ def isSafe(row,col,num):
                 return False
     return True
         
-def getUnassigned(row,col):
+def getUnassigned(row,col): # retrieves an unassigned cell
     for a in range(row,9):
         for b in range(0,9):
             if board[a][b]==0:
                 return (a,b)
     return (-1,-1)
 
-def solve(gameDisplay,row,col,startTime,checkWork):
-    if not checkWork:
+def solve(gameDisplay,row,col,startTime,checkWork): # recursive solve function
+    if not checkWork: # monitor for quit signal
         drawTimer(gameDisplay,startTime)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -72,22 +68,22 @@ def solve(gameDisplay,row,col,startTime,checkWork):
     unassigned = getUnassigned(row,col)
     if unassigned[0]==-1:
         return True
-    for i in range(1,10):
+    for i in range(1,10): # loops through digits to see which are valid
         if isSafe(unassigned[0],unassigned[1],i):
-            if not checkWork:
+            if not checkWork: # draw new valid number in cell
                 removeInvalid(gameDisplay,unassigned[0],unassigned[1])
                 addValid(gameDisplay,unassigned[0],unassigned[1],i)
             board[unassigned[0]][unassigned[1]] = i
-            if unassigned[0]==8 and unassigned[1]==8:
+            if unassigned[0]==8 and unassigned[1]==8: # board is valid and complete
                 return True
-            elif unassigned[1]==8:
+            elif unassigned[1]==8: # solve starting on next row
                 if solve(gameDisplay, unassigned[0]+1,0, startTime, checkWork):
                     return True
-            else:
+            else: # solve starting on next col
                 if solve(gameDisplay, unassigned[0],unassigned[1]+1, startTime, checkWork):
                     return True
     board[unassigned[0]][unassigned[1]] = 0
-    if not checkWork:
+    if not checkWork: # if no digit is valid in consideration of other cells
         removeInvalid(gameDisplay,unassigned[0],unassigned[1])
     return False
 
@@ -127,7 +123,7 @@ def handleUserInput(gameDisplay, row,col):
         drawInnerBox(gameDisplay,black,row,col,2)
         pygame.display.update()
         
-def checkWork(gameDisplay):
+def checkWork(gameDisplay): # check which user-entered numbers are correct and incorrect in comparison with the valid solution
     executeSolve(gameDisplay, 0, True)
     complete = True
     for a in range(9):
@@ -155,7 +151,7 @@ def checkWork(gameDisplay):
                 handleClick(gameDisplay)
                 return
 
-def handleClick(gameDisplay):
+def handleClick(gameDisplay): # triggered if user clicks
     mouse = pygame.mouse.get_pos()
     if WIDTH/10 <= mouse[0] <= 3*WIDTH/10 and WIDTH+(HEIGHT-WIDTH)/6 <= mouse[1] <= WIDTH+(HEIGHT-WIDTH)/2: # solve
         resetBoard(gameDisplay)
@@ -177,7 +173,7 @@ def handleClick(gameDisplay):
         if originalBoard[int(box[0])][int(box[1])]==0:
             handleUserInput(gameDisplay,box[0],box[1])
 
-def playGame():
+def playGame(): # main game loop
     pygame.init()
     gameDisplay = pygame.display.set_mode([WIDTH,HEIGHT])
     pygame.display.set_caption('Sodoku Solver')
@@ -193,5 +189,6 @@ def playGame():
         drawButtons(gameDisplay)
         pygame.display.update()
     pygame.quit()
+
 
 playGame()
