@@ -1,8 +1,8 @@
 import pygame
 import sys
 from time import sleep
-from generate import generateBoard
-from draw import *
+from src.utils.generate import generateBoard
+from src.utils.draw import *
 
 WIDTH=600
 HEIGHT=800
@@ -172,23 +172,3 @@ def handleClick(gameDisplay): # triggered if user clicks
         box = calcBox()
         if originalBoard[int(box[0])][int(box[1])]==0:
             handleUserInput(gameDisplay,box[0],box[1])
-
-def playGame(): # main game loop
-    pygame.init()
-    gameDisplay = pygame.display.set_mode([WIDTH,HEIGHT])
-    pygame.display.set_caption('Sodoku Solver')
-    resetBoard(gameDisplay)
-    
-    running = True
-    while running:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running=False
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                handleClick(gameDisplay)
-        drawButtons(gameDisplay)
-        pygame.display.update()
-    pygame.quit()
-
-
-playGame()

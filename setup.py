@@ -9,11 +9,11 @@ setup(
     url="https://github.com/christophernathan/sudoku_solver",
     packages=find_packages(),
     install_requires=[
-       # 'requests', 'requests-mock', 'python-dotenv', 'pandas', 'pytest'
+        'pygame'
     ],
     entry_points={
         "console_scripts": [
-         #   "bot = bot.__main__:bot"
+            "game = game.__main__:bot"
         ]
     },
 )
