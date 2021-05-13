@@ -1,6 +1,6 @@
-# Sodoku Solver
+# Sudoku Solver
 
-This is an interactive sodoku game written in python with pygame integration. The program uses a simple recursive backtracking algorithm to complete partially-solved sodoku boards. The user can attempt to solve the board manually by clicking on cells within the incomplete board and typing in numbers. The user can check their work by pressing the "Check" button, which will outline correct cells with green and incorrect cells with red. The board will be automatically solved if the user clicks the "Solve" button. This also gives proper demonstration of the backtracking algorithm. The board can be reset by pressing the "Reset" button, which will wipe both auto-solved cells, as well as user input. A new board can be generated and loaded by pressing the "New Board" button. Any new board is guaranteed to have exactly 1 valid solution.
+This is an interactive sudoku game written in python with pygame integration. The program uses a simple recursive backtracking algorithm to complete partially-solved sudoku boards. The user can attempt to solve the board manually by clicking on cells within the incomplete board and typing in numbers. The user can check their work by pressing the "Check" button, which will outline correct cells with green and incorrect cells with red. The board will be automatically solved if the user clicks the "Solve" button. This also gives proper demonstration of the backtracking algorithm. The board can be reset by pressing the "Reset" button, which will wipe both auto-solved cells, as well as user input. A new board can be generated and loaded by pressing the "New Board" button. Any new board is guaranteed to have exactly 1 valid solution.
 
 # Getting Started
 
