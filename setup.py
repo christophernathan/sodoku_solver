@@ -13,7 +13,7 @@ setup(
     ],
     entry_points={
         "console_scripts": [
-            "game = game.__main__:bot"
+            "game = src.__main__:playGame"
         ]
     },
 )

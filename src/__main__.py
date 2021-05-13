@@ -1,12 +1,11 @@
 import pygame
-from src.utils.draw import *
-from src.utils.game import *
+from src.utils import draw, game
 
 def playGame(): # main game loop
     pygame.init()
-    gameDisplay = pygame.display.set_mode([WIDTH,HEIGHT])
+    gameDisplay = pygame.display.set_mode([draw.WIDTH,draw.HEIGHT])
     pygame.display.set_caption('Sudoku Solver')
-    resetBoard(gameDisplay)
+    game.resetBoard(gameDisplay)
     
     running = True
     while running:
@@ -14,8 +13,8 @@ def playGame(): # main game loop
             if event.type == pygame.QUIT:
                 running=False
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                handleClick(gameDisplay)
-        drawButtons(gameDisplay)
+                game.handleClick(gameDisplay)
+        draw.drawButtons(gameDisplay)
         pygame.display.update()
     pygame.quit()
 
