@@ -1,5 +1,8 @@
-import pygame
-from src.utils import draw, game
+import pygame, os, sys
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from sudoku.utils import draw, game
 
 def playGame(): # main game loop
     pygame.init()
