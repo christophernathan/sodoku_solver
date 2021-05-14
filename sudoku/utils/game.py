@@ -1,8 +1,6 @@
 import pygame
 import sys
 from time import sleep
-#from sudoku.utils.generate import generateBoard
-#from sudoku.utils.draw import *
 from sudoku.utils import generate, draw
 
 WIDTH=600

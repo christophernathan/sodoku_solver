@@ -13,7 +13,7 @@ setup(
     ],
     entry_points={
         "console_scripts": [
-            "game = src.__main__:playGame"
+            "game = sudoku.__main__:playGame"
         ]
     },
 )

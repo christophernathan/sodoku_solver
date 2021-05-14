@@ -70,8 +70,6 @@ def drawTimer(gameDisplay,startTime):
     currTime//=10
     currTime/=100
     timer = TIMER_FONT.render(str(currTime),True,dark_blue)
-    timer_width = timer.get_rect().width
-    timer_height = timer.get_rect().height
     drawRectangle(gameDisplay, white, WIDTH/10, WIDTH+4*(HEIGHT-WIDTH)/6, 2*BUTTON_WIDTH, BUTTON_HEIGHT, 0)
     gameDisplay.blit(timer,(WIDTH/10,WIDTH+4*(HEIGHT-WIDTH)/6))
     pygame.display.update()
