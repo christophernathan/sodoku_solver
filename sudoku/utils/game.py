@@ -101,7 +101,6 @@ def resetBoard(gameDisplay):
     pygame.display.update()
 
 def handleUserInput(gameDisplay, row,col):
-    box_width = (WIDTH-6)/9
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
