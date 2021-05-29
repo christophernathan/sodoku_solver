@@ -2,3 +2,5 @@ __pycache__/
 .vscode
 sudoku_solver_venv
 sudoku_solver.egg-info
+
+logic.py
